@@ -331,7 +331,7 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onDestroy() {
-        objectAnimator?.cancel()
+        closeTime()
         super.onDestroy()
     }
 
