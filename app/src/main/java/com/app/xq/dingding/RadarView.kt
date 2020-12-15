@@ -56,10 +56,12 @@ class RadarView : View {
     private var radius: Int = 0
     val paintLeiDa = Paint()
     val paint = Paint()
+    val paintPosi = Paint()
     val paintBottom = Paint()
     val path = Path()
     val pathBottom = Path()
     val interval = 10F.dpInt()
+    val pts = mutableListOf<Float>()
 
     init {
         paintLeiDa.run {
@@ -77,6 +79,13 @@ class RadarView : View {
             style = Paint.Style.STROKE
             strokeWidth = 0.5F.dp()
             color = Color.argb(70, 65, 235, 109)
+        }
+        paintPosi.run {
+            isAntiAlias = true
+            style = Paint.Style.FILL
+            strokeCap = Paint.Cap.ROUND
+            strokeWidth = 5F.dp()
+            color = Color.argb(80, 65, 235, 109)
         }
     }
 
@@ -198,10 +207,12 @@ class RadarView : View {
         canvas?.drawPath(path, paint)
 
 
-
-
         canvas?.drawCircle(width * 0.5F, height * 0.5F, radius.toFloat(), paintLeiDa)
 
+
+        if (pts.isNotEmpty()) {
+            canvas?.drawPoints(pts.toFloatArray(), paintPosi)
+        }
 
     }
 

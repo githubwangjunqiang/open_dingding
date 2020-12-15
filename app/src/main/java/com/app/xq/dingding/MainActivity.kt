@@ -1,5 +1,6 @@
 package com.app.xq.dingding
 
+import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -15,6 +16,7 @@ import android.util.Log
 import android.view.animation.LinearInterpolator
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.addListener
 import androidx.lifecycle.lifecycleScope
 import com.app.xq.dingding.guidingmask.GuidingMaskView
 import com.app.xq.dingding.guidingmask.MaskView
@@ -23,6 +25,7 @@ import kotlinx.coroutines.delay
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity() {
@@ -161,6 +164,8 @@ class MainActivity : AppCompatActivity() {
         maskView.setBtnOnClickListener { v ->
             build.dismiss()
             setShow()
+            Toast.makeText(this, "先测试打开钉钉", Toast.LENGTH_SHORT).show()
+            startActivityForPackName("com.alibaba.android.rimet")
         }
         build.addView(maskView, layoutParams)
         build.show(this)
@@ -233,6 +238,41 @@ class MainActivity : AppCompatActivity() {
         objectAnimator?.duration = DURATION
         objectAnimator?.repeatCount = ObjectAnimator.INFINITE
         objectAnimator?.interpolator = LinearInterpolator()
+        objectAnimator?.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+                Log.d("12345", ": 开始启动");
+                mRadarView.pts.clear()
+                for (index in 1..5){
+                    mRadarView.pts.add(
+                        Random.nextInt(mRadarView.width).toFloat()
+                    )
+                    mRadarView.pts.add(
+                        Random.nextInt(mRadarView.height).toFloat()
+                    )
+                }
+
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+                Log.d("12345", ": 开始启动");
+                mRadarView.pts.clear()
+                for (index in 1..5){
+                    mRadarView.pts.add(
+                        Random.nextInt(mRadarView.width).toFloat()
+                    )
+                    mRadarView.pts.add(
+                        Random.nextInt(mRadarView.height).toFloat()
+                    )
+                }
+            }
+
+        })
         objectAnimator?.start()
 
     }
