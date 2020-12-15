@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private var launchWhenCreatedPolling: Job? = null
-    private var isChecked: Boolean = false
     private var objectAnimator: ObjectAnimator? = null
     private var launchWhenCreated: Job? = null
     val mTextViewTimeStart by lazy {
@@ -112,8 +111,7 @@ class MainActivity : AppCompatActivity() {
                 .setCallback { true }
                 .build()
             val maskView = MaskView(this)
-            val top: Float =
-                20F.dp() + rctf.bottom
+            val top: Float = rctf.bottom.toFloat()
 
             maskView.setFlickerViewPadingleft((rectF.right - rectF.width() / 2).toInt())
             maskView.setContentMsg(
@@ -213,7 +211,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         mToggleButton.setOnCheckedChangeListener { buttonView, isChecked ->
-            this.isChecked = isChecked
             if (isChecked) {
                 startTime()
             } else {
@@ -288,9 +285,6 @@ class MainActivity : AppCompatActivity() {
         launchWhenCreated = lifecycleScope.launchWhenCreated {
             while (true) {
                 delay(DURATION)
-                if (!isChecked) {
-                    continue
-                }
                 val currentTimeMillis = System.currentTimeMillis()
 
                 mTextViewContent.text =
