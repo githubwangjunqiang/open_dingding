@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="The_network_server_is_unstable">unstable network and server</string>
+    <string name="request_failed">request failed</string>
+    <string name="The_json_error">json parse exception</string>
+</resources>

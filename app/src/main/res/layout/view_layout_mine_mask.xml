@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:background="#000">
+
+
+    <com.app.xq.dingding.guidingmask.FlickerView
+        android:layout_width="13dp"
+        android:id="@+id/app_view_mine_mask_flick"
+        android:layout_height="25dp"
+        android:rotation="-90"
+        app:flv_endColor="#99FFFFFF"
+        app:flv_paintWidth="2dp"
+        app:flv_paint_round="1dp" />
+
+    <com.app.xq.dingding.guidingmask.FlickerView
+        android:id="@+id/app_view_mine_mask_flick2"
+        android:layout_width="13dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="-14dp"
+        android:rotation="-90"
+        app:flv_endColor="#FFFFFF"
+        app:flv_paintWidth="2dp"
+        app:flv_paint_round="1dp" />
+
+
+    <TextView
+        android:id="@+id/app_view_mine_mask_tvmsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:lineSpacingExtra="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="10dp"
+        android:text="提交的任务会收录到这里,\n您可以在此查看到任务的审核进度"
+        android:textColor="#ffffff"
+        android:textSize="15dp" />
+
+
+    <TextView
+        android:id="@+id/app_view_mine_mask_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/app_mine_mask_btn"
+        android:paddingStart="27dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="27dp"
+        android:paddingBottom="5dp"
+        android:text="知道了"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp" />
+</LinearLayout>

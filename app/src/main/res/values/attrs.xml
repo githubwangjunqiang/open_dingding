@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DelayedClickTextView">
+
+        <attr name="typeface_text">
+            <enum name="Oswald_Regular" value="1" />
+            <enum name="fangzheng_cuhei_jianti" value="2" />
+        </attr>
+    </declare-styleable>
+
+
+    <!--首页tag-->
+    <declare-styleable name="MyAnimationImgView">
+        <attr name="selected_bitmap" format="integer" />
+        <attr name="default_bitmap" format="integer" />
+    </declare-styleable>
+    <!--首页tag-->
+
+
+    <!--边框动画 imageview-->
+    <declare-styleable name="MyFrameImageView">
+        <attr name="start_color" format="color" />
+        <attr name="end_color" format="color" />
+    </declare-styleable>
+    <!--边框动画 imageview-->
+
+    <!--自定义验证码-->
+    <declare-styleable name="PasswordView">
+        <attr name="passwordLength" format="integer" />
+        <attr name="passwordPadding" format="dimension" />
+        <attr name="borderColor" format="color" />
+        <attr name="borderWidth" format="dimension" />
+        <attr name="cursorFlashTime" format="integer" />
+        <attr name="isCursorEnable" format="boolean" />
+        <attr name="cipherEnable" format="boolean" />
+        <attr name="cursorColor" format="color" />
+        <attr name="mode" format="enum">
+            <enum name="underline" value="0" />
+            <enum name="rect" value="1" />
+        </attr>
+    </declare-styleable>
+
+
+    <!--提交按钮的 自定义属性-->
+    <declare-styleable name="LoaddingButton">
+        <attr name="load_btn_loadwidth" format="dimension" />
+        <attr name="load_btn_loadcolor" format="color" />
+    </declare-styleable>
+    <!--    对话框 取消按钮 获取金币倒计时的自定义view-->
+    <declare-styleable name="MyTimeDownDelete">
+        <attr name="td_paint_width" format="dimension" />
+        <attr name="td_paint_color" format="color" />
+    </declare-styleable>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
+
+
+    <!--    标签自定义view-->
+    <declare-styleable name="MyNoteView">
+        <attr name="note_color" format="color" />
+        <attr name="note_mode" format="enum">
+            <enum name="start" value="0" />
+            <enum name="top" value="1" />
+            <enum name="end" value="2" />
+            <enum name="bottom" value="3" />
+        </attr>
+    </declare-styleable>
+
+
+    <!--升级进度条-->
+    <declare-styleable name="LinearProgress">
+        <attr name="lpo_BackColor" format="color" />
+        <attr name="lpo_TextColor" format="color" />
+        <attr name="lpo_TextSize" format="dimension" />
+        <attr name="lpo_StrokeBackWidth" format="dimension" />
+        <attr name="lpo_ProgressColor_Start" format="color" />
+        <attr name="lpo_ProgressColor_Center" format="color" />
+        <attr name="lpo_ProgressColor_End" format="color" />
+        <attr name="lpo_StrokeBackStart_Color" format="color" />
+        <attr name="lpo_StrokeBackCenter_Color" format="color" />
+        <attr name="lpo_StrokeBackEnd_Color" format="color" />
+
+        <attr name="lpo_Animation_Duration" format="integer" />
+        <attr name="lpo_Animation_Threshold" format="integer" />
+    </declare-styleable>
+    <!--闪光进入按钮 进入箭头-->
+    <declare-styleable name="FlickerView">
+        <attr name="flv_startColor" format="color" />
+        <attr name="flv_paint_style_fill" format="boolean" />
+        <attr name="flv_centerColor" format="color" />
+        <attr name="flv_endColor" format="color" />
+        <attr name="flv_paintWidth" format="dimension" />
+        <attr name="flv_count" format="integer" />
+        <attr name="flv_paint_round" format="dimension" />
+    </declare-styleable>
+
+    <!--首页指示器长条横条-->
+    <declare-styleable name="MyIndicatorView">
+        <attr name="indicator_count" format="integer" />
+        <attr name="indicator_s_color" format="color" />
+        <attr name="indicator_c_color" format="color" />
+        <attr name="indicator_e_color" format="color" />
+        <attr name="indicator_width" format="dimension" />
+    </declare-styleable>
+    <!--首页指示器长条横条-->
+
+    <declare-styleable name="ViewPagerIndicator">
+        <attr name="visible_tab_count" format="integer" />
+    </declare-styleable>
+
+    <!--轮播图-->
+    <declare-styleable name="UltraViewPager">
+        <attr name="upv_autoscroll" format="integer" />
+        <attr name="upv_infiniteloop" format="boolean" />
+        <attr name="upv_ratio" format="float" />
+        <attr name="upv_scrollmode" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="upv_disablescroll" format="enum">
+            <enum name="none" value="0" />
+            <enum name="backward" value="1" />
+            <enum name="forward" value="2" />
+        </attr>
+        <attr name="upv_multiscreen" format="float" />
+        <attr name="upv_automeasure" format="boolean" />
+        <attr name="upv_itemratio" format="float" />
+    </declare-styleable>
+
+</resources>

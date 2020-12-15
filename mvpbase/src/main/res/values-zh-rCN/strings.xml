@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="The_network_server_is_unstable">网络、服务器不稳定</string>
+    <string name="request_failed">请求失败</string>
+    <string name="The_json_error">json解析异常</string>
+</resources>
