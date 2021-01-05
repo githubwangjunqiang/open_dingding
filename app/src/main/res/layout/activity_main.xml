@@ -9,6 +9,24 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:textColorHint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textedit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:hint="请输入接收消息的邮箱地址，请自行检查是否正确"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <ToggleButton
         android:id="@+id/switch1"
         android:layout_width="match_parent"
@@ -28,8 +46,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="50dp"
-        />
+        android:layout_marginEnd="50dp" />
 
     <Button
         android:id="@+id/starttime"
@@ -52,6 +69,8 @@
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 
 
 </LinearLayout>

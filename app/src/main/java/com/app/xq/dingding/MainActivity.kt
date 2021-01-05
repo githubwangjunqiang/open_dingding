@@ -6,6 +6,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Rect
@@ -16,10 +17,10 @@ import android.util.Log
 import android.view.animation.LinearInterpolator
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.animation.addListener
 import androidx.lifecycle.lifecycleScope
 import com.app.xq.dingding.guidingmask.GuidingMaskView
 import com.app.xq.dingding.guidingmask.MaskView
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import java.io.*
@@ -43,6 +44,11 @@ class MainActivity : AppCompatActivity() {
         const val GUARDTIME = 1000 * 60L * 5
 
         /**
+         * 是否打开了钉钉
+         */
+        var startDingding = false
+
+        /**
          * 选中的时间
          */
         var millisecondValue = 0L
@@ -63,6 +69,9 @@ class MainActivity : AppCompatActivity() {
     }
     val mToggleButton by lazy {
         findViewById<ToggleButton>(R.id.switch1)
+    }
+    val edittextMailbox by lazy {
+        findViewById<TextInputEditText>(R.id.textedit)
     }
 
 
@@ -94,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
 
         mTextViewTimeStart.post {
-            if (getShow()) {
+            if (true) {
                 return@post
             }
             val rctf = Rect()
@@ -129,7 +138,14 @@ class MainActivity : AppCompatActivity() {
             build.show(this)
         }
 
+
+        val mailbox = getMailbox()
+
+        edittextMailbox?.setText(mailbox)
+
     }
+
+    var valueDouble: Double = 0.0
 
     private fun showStartMasking() {
 
@@ -218,6 +234,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
+
+    }
+
+    public fun saveMailbox(mailbox: String) {
+        val sp: SharedPreferences =
+            applicationContext.getSharedPreferences("mailbox", MODE_PRIVATE)
+        sp.edit().putString("mailbox", mailbox).commit()
+    }
+
+    public fun getMailbox(): String {
+        val sp: SharedPreferences =
+            applicationContext.getSharedPreferences("mailbox", MODE_PRIVATE)
+        return sp.getString("mailbox", "") ?: ""
+    }
+
+    override fun onStop() {
+
+        val trim = edittextMailbox?.text.toString().trim()
+        saveMailbox(trim)
+        super.onStop()
     }
 
     private fun closeTime() {
@@ -239,7 +276,7 @@ class MainActivity : AppCompatActivity() {
             override fun onAnimationStart(animation: Animator?) {
                 Log.d("12345", ": 开始启动");
                 mRadarView.pts.clear()
-                for (index in 1..5){
+                for (index in 1..5) {
                     mRadarView.pts.add(
                         Random.nextInt(mRadarView.width).toFloat()
                     )
@@ -259,7 +296,7 @@ class MainActivity : AppCompatActivity() {
             override fun onAnimationRepeat(animation: Animator?) {
                 Log.d("12345", ": 开始启动");
                 mRadarView.pts.clear()
-                for (index in 1..5){
+                for (index in 1..5) {
                     mRadarView.pts.add(
                         Random.nextInt(mRadarView.width).toFloat()
                     )
@@ -296,6 +333,23 @@ class MainActivity : AppCompatActivity() {
                         startActivityForPackName("com.alibaba.android.rimet")
                     Log.d("12345", "打开: $startActivityForPackName");
                     mTextViewContent.append("\n打开钉钉：$startActivityForPackName")
+                    val trim = edittextMailbox.text.toString().trim()
+
+                    Log.d("12345", "trim:$trim ");
+                    if (!TextUtils.isEmpty(trim)) {
+                        if (startDingding) {
+                            return@launchWhenCreated
+                        }
+                        if (startActivityForPackName) {
+                            startDingding = startActivityForPackName
+                        }
+
+                        sendMailbox(
+                            arrayListOf(trim),
+                            "计时器计时时间到，并尝试打开滴滴，打开结果为：$startActivityForPackName \n 如果此次打开滴滴失败，" +
+                                    "后续会每尝试打开一次滴滴就会发送一次邮件，直到打开成功或者您回到公司手动关闭计时"
+                        )
+                    }
                 }
             }
         }
