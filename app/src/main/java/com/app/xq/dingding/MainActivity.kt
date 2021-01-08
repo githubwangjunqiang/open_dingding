@@ -1,22 +1,30 @@
 package com.app.xq.dingding
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.bluetooth.BluetoothAdapter
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.RectF
+import android.media.projection.MediaProjection
+import android.media.projection.MediaProjectionManager
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.app.xq.dingding.guidingmask.GuidingMaskView
 import com.app.xq.dingding.guidingmask.MaskView
@@ -55,6 +63,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private var mMediaProjection: MediaProjection? = null
+    private val REQUEST_PERMISSIONS: Int = 1001
+    private val RECORD_REQUEST_CODE: Int = 1002
+    private var mMediaProjectionManage: MediaProjectionManager? = null
     private var launchWhenCreatedPolling: Job? = null
     private var objectAnimator: ObjectAnimator? = null
     private var launchWhenCreated: Job? = null
@@ -74,6 +86,15 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextInputEditText>(R.id.textedit)
     }
 
+    /**
+     * 2.设置 APP界面屏幕亮度值方法  0--1 之间
+     */
+    private fun setAppScreenBrightness(birghtessValue: Float) {
+        val window: Window = window
+        val lp: WindowManager.LayoutParams = window.getAttributes()
+        lp.screenBrightness = birghtessValue
+        window.setAttributes(lp)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -226,14 +247,14 @@ class MainActivity : AppCompatActivity() {
                 datePickerDialog.show()
             }
         }
-        mToggleButton.setOnCheckedChangeListener { buttonView, isChecked ->
+        mToggleButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 startTime()
+                setAppScreenBrightness(0.1F)
             } else {
                 closeTime()
             }
         }
-
 
 
     }
@@ -343,10 +364,12 @@ class MainActivity : AppCompatActivity() {
                         if (startActivityForPackName) {
                             startDingding = startActivityForPackName
                         }
-
-                        sendMailbox(
+                        var msg = if (startActivityForPackName) "成功" else "失败"
+                        SendMailboxManager.sendMailbox(
                             arrayListOf(trim),
-                            "计时器计时时间到，并尝试打开滴滴，打开结果为：$startActivityForPackName \n 如果此次打开滴滴失败，" +
+                            "计时器计时时间到，并尝试打开滴滴，打开结果为：" +
+                                    "$msg " +
+                                    "\n 如果此次打开滴滴失败，" +
                                     "后续会每尝试打开一次滴滴就会发送一次邮件，直到打开成功或者您回到公司手动关闭计时"
                         )
                     }
@@ -416,5 +439,44 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
+    }
+
+
+    fun requestForAccess() {
+        val permissions = arrayOf(
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.RECORD_AUDIO //音频
+        )
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.MODIFY_AUDIO_SETTINGS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSIONS)
+        }
+    }
+
+    /**
+     * 开始录屏
+     */
+    private fun requestRecording() {
+        mMediaProjectionManage =
+            getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        var captureIntent: Intent? = null
+        if (mMediaProjectionManage != null) {
+            captureIntent = mMediaProjectionManage?.createScreenCaptureIntent()
+        }
+        startActivityForResult(captureIntent, RECORD_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RECORD_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                mMediaProjection = mMediaProjectionManage?.getMediaProjection(resultCode, data!!);
+            } else {
+                Log.d("12345", "requestRecordFail: 用戶拒绝录制屏幕: ")
+            }
+        }
     }
 }
