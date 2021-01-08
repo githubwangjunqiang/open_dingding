@@ -1,5 +1,8 @@
 package com.app.xq.dingding
 
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
 import com.teprinciple.mailsender.Mail
 import com.teprinciple.mailsender.MailSender
 import kotlinx.coroutines.GlobalScope
@@ -13,6 +16,32 @@ import java.io.File
  * @data:  on 2021/1/8 16:40
  */
 object SendMailboxManager {
+
+
+    fun saveMailbox(mailbox: String, context: Context) {
+        val sp: SharedPreferences =
+            context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
+        sp.edit().putString("mailbox", mailbox).commit()
+    }
+
+    fun getMailbox(context: Context): String {
+        val sp: SharedPreferences =
+            context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
+        return sp.getString("mailbox", "") ?: ""
+    }
+
+
+    fun saveVersionMsg(context: Context) {
+        val sp: SharedPreferences =
+            context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
+        sp.edit().putBoolean("show_brightness", true).commit()
+    }
+
+    fun getVersionMsg(context: Context): Boolean {
+        val sp: SharedPreferences =
+            context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
+        return sp.getBoolean("show_brightness", false)
+    }
 
     private var countMailbox: CountMailbox? = null
 

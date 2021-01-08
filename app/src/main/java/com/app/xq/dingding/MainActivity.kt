@@ -22,6 +22,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -101,6 +102,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initView()
         setListener()
+
+        if (!SendMailboxManager.getVersionMsg(applicationContext)) {
+            SendMailboxManager.saveVersionMsg(applicationContext)
+
+            AlertDialog.Builder(this).setMessage("此次更新了邮件发送失败后重发，计时开始后屏幕亮度自动调节").show()
+        }
+
     }
 
     private fun initView() {
@@ -160,7 +168,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val mailbox = getMailbox()
+        val mailbox = SendMailboxManager.getMailbox(applicationContext)
 
         edittextMailbox?.setText(mailbox)
 
@@ -250,7 +258,6 @@ class MainActivity : AppCompatActivity() {
         mToggleButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 startTime()
-                setAppScreenBrightness(0.1F)
             } else {
                 closeTime()
             }
@@ -259,22 +266,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    public fun saveMailbox(mailbox: String) {
-        val sp: SharedPreferences =
-            applicationContext.getSharedPreferences("mailbox", MODE_PRIVATE)
-        sp.edit().putString("mailbox", mailbox).commit()
-    }
-
-    public fun getMailbox(): String {
-        val sp: SharedPreferences =
-            applicationContext.getSharedPreferences("mailbox", MODE_PRIVATE)
-        return sp.getString("mailbox", "") ?: ""
-    }
 
     override fun onStop() {
 
         val trim = edittextMailbox?.text.toString().trim()
-        saveMailbox(trim)
+        SendMailboxManager.saveMailbox(trim, applicationContext)
         super.onStop()
     }
 
@@ -285,6 +281,7 @@ class MainActivity : AppCompatActivity() {
         objectAnimator = null
         launchWhenCreatedPolling?.cancel()
         launchWhenCreatedPolling = null
+        setAppScreenBrightness(-1F)
     }
 
     private fun startAnimation() {
@@ -338,6 +335,7 @@ class MainActivity : AppCompatActivity() {
             mToggleButton.isChecked = false
             return
         }
+        setAppScreenBrightness(0.02F)
         startAnimation()
         startDefend()
         launchWhenCreated = lifecycleScope.launchWhenCreated {
