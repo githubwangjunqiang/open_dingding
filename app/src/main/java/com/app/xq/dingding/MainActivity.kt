@@ -86,6 +86,12 @@ class MainActivity : AppCompatActivity() {
     val edittextMailbox by lazy {
         findViewById<TextInputEditText>(R.id.textedit)
     }
+    val edittextSend by lazy {
+        findViewById<TextInputEditText>(R.id.texteditsend)
+    }
+    val edittextSendPass by lazy {
+        findViewById<TextInputEditText>(R.id.texteditsendpass)
+    }
 
     /**
      * 2.设置 APP界面屏幕亮度值方法  0--1 之间
@@ -169,8 +175,14 @@ class MainActivity : AppCompatActivity() {
 
 
         val mailbox = SendMailboxManager.getMailbox(applicationContext)
-
         edittextMailbox?.setText(mailbox)
+
+
+        val sendMailbox = SendMailboxManager.getSendMailbox(applicationContext)
+        edittextSend?.setText(sendMailbox)
+
+        val sendPass = SendMailboxManager.getSendPass(applicationContext)
+        edittextSendPass?.setText(sendPass)
 
     }
 
@@ -271,6 +283,12 @@ class MainActivity : AppCompatActivity() {
 
         val trim = edittextMailbox?.text.toString().trim()
         SendMailboxManager.saveMailbox(trim, applicationContext)
+
+        val send = edittextSend?.text.toString().trim()
+        SendMailboxManager.saveSendMailbox(send, applicationContext)
+
+        val sendPass = edittextSendPass?.text.toString().trim()
+        SendMailboxManager.saveSendPass(sendPass, applicationContext)
         super.onStop()
     }
 
@@ -348,11 +366,14 @@ class MainActivity : AppCompatActivity() {
 
 
                 if (millisecondValue <= currentTimeMillis) {
+                    val trim = edittextMailbox.text.toString().trim()
+                    val send = edittextSend.text.toString().trim()
+                    val sendPass = edittextSendPass.text.toString().trim()
                     val startActivityForPackName =
                         startActivityForPackName("com.alibaba.android.rimet")
                     Log.d("12345", "打开: $startActivityForPackName");
                     mTextViewContent.append("\n打开钉钉：$startActivityForPackName")
-                    val trim = edittextMailbox.text.toString().trim()
+
 
                     Log.d("12345", "trim:$trim ");
                     if (!TextUtils.isEmpty(trim)) {
@@ -364,6 +385,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         var msg = if (startActivityForPackName) "成功" else "失败"
                         SendMailboxManager.sendMailbox(
+                            send, sendPass,
                             arrayListOf(trim),
                             "计时器计时时间到，并尝试打开滴滴，打开结果为：" +
                                     "$msg " +

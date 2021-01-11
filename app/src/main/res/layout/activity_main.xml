@@ -18,13 +18,52 @@
         android:textColorHint="@color/white">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/texteditsend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:hint="请输入发送消息的邮箱地址，请自行检查是否正确"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="13dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:textColorHint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/texteditsendpass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:hint="请输入发送消息的邮箱地址密码"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="13dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:textColorHint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textedit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/black"
             android:hint="请输入接收消息的邮箱地址，请自行检查是否正确"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColorHint="@color/white"
+            android:textSize="13dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ToggleButton
@@ -54,9 +93,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
+        android:background="#000000"
         android:padding="20dp"
         android:text="选择时间"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textSize="16dp" />
 
 
@@ -69,8 +109,6 @@
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 
 
 </LinearLayout>

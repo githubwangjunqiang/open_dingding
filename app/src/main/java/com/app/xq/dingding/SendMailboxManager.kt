@@ -17,7 +17,9 @@ import java.io.File
  */
 object SendMailboxManager {
 
-
+    /**
+     * 接收邮箱
+     */
     fun saveMailbox(mailbox: String, context: Context) {
         val sp: SharedPreferences =
             context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
@@ -30,17 +32,50 @@ object SendMailboxManager {
         return sp.getString("mailbox", "") ?: ""
     }
 
+    /**
+     * 发送邮箱
+     */
+    fun saveSendMailbox(mailbox: String, context: Context) {
+        val sp: SharedPreferences =
+            context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
+        sp.edit().putString("send_mailbox", mailbox).commit()
+    }
 
+    fun getSendMailbox(context: Context): String {
+        val sp: SharedPreferences =
+            context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
+        return sp.getString("send_mailbox", "") ?: ""
+    }
+
+    /**
+     * 发送邮箱密码
+     */
+    fun saveSendPass(mailbox: String, context: Context) {
+        val sp: SharedPreferences =
+            context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
+        sp.edit().putString("send_pass", mailbox).commit()
+    }
+
+    fun getSendPass(context: Context): String {
+        val sp: SharedPreferences =
+            context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
+        return sp.getString("send_pass", "") ?: ""
+    }
+
+
+    /**
+     * 更新文案
+     */
     fun saveVersionMsg(context: Context) {
         val sp: SharedPreferences =
             context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
-        sp.edit().putBoolean("show_brightness", true).commit()
+        sp.edit().putBoolean("show_brightness${BuildConfig.VERSION_CODE}", true).commit()
     }
 
     fun getVersionMsg(context: Context): Boolean {
         val sp: SharedPreferences =
             context.getSharedPreferences("mailbox", AppCompatActivity.MODE_PRIVATE)
-        return sp.getBoolean("show_brightness", false)
+        return sp.getBoolean("show_brightness${BuildConfig.VERSION_CODE}", false)
     }
 
     private var countMailbox: CountMailbox? = null
@@ -52,6 +87,7 @@ object SendMailboxManager {
                 delay(1000 * 10)
                 countMailbox?.run {
                     sendMailbox(
+                        fromAddress, fromAddressPass,
                         emailAddress ?: arrayListOf<String>(),
                         content
                     )
@@ -93,14 +129,19 @@ object SendMailboxManager {
      * 发送邮件
      * @param toEmailAddress 接收邮箱地址的数组集合  例如 arrayListOf("488394778@qq.com")
      */
-    fun sendMailbox(toEmailAddress: ArrayList<String>, msg: String) {
+    fun sendMailbox(
+        froAddress: String?,
+        passwd: String?,
+        toEmailAddress: ArrayList<String>,
+        msg: String
+    ) {
         // 创建邮箱
         countMailbox = null
         val mail = Mail().apply {
             mailServerHost = "smtp.qq.com"
             mailServerPort = "587"
-            fromAddress = "980766134@qq.com"
-            password = "oswiknzxjodobbec"
+            fromAddress = froAddress ?: "980766134@qq.com"
+            password = passwd ?: "oswiknzxjodobbec"
             toAddress = toEmailAddress
             subject = "钉钉"
             content = msg
@@ -112,6 +153,8 @@ object SendMailboxManager {
                 countMailbox = CountMailbox().apply {
                     content = msg
                     emailAddress = toEmailAddress
+                    fromAddress = froAddress
+                    fromAddressPass = passwd
                 }
             }
 

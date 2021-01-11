@@ -14,8 +14,26 @@ class CountMailbox {
     private int count;
     private ArrayList<String> emailAddress;
     private String content;
+    private String fromAddress;
+    private String fromAddressPass;
     private String title;
     private List<File> files;
+
+    public String getFromAddressPass() {
+        return fromAddressPass == null ? "" : fromAddressPass;
+    }
+
+    public void setFromAddressPass(String fromAddressPass) {
+        this.fromAddressPass = fromAddressPass;
+    }
+
+    public String getFromAddress() {
+        return fromAddress == null ? "" : fromAddress;
+    }
+
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+    }
 
     public ArrayList<String> getEmailAddress() {
         return emailAddress;
