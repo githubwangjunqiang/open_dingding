@@ -1,7 +1,11 @@
 package com.app.xq.dingding
 
+import android.app.Activity
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.SharedPreferences
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.teprinciple.mailsender.Mail
 import com.teprinciple.mailsender.MailSender
@@ -9,6 +13,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+
 
 /**
  * @author Android-小强
@@ -162,6 +167,20 @@ object SendMailboxManager {
 
             }
         })
+
+    }
+
+
+    /**
+     * 隐藏键盘
+     */
+    fun hideInput(context: Activity) {
+        val imm: InputMethodManager? =
+            context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
+        val v: View = context.window.peekDecorView()
+        v?.run {
+            imm?.hideSoftInputFromWindow(windowToken, 0)
+        }
 
     }
 

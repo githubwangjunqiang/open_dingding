@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     private var objectAnimator: ObjectAnimator? = null
     private var launchWhenCreated: Job? = null
     val mTextViewTimeStart by lazy {
-        findViewById<Button>(R.id.starttime)
+        findViewById<TextView>(R.id.starttime)
     }
     val mTextViewContent by lazy {
         findViewById<TextView>(R.id.starttimecontent)
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         if (!SendMailboxManager.getVersionMsg(applicationContext)) {
             SendMailboxManager.saveVersionMsg(applicationContext)
 
-            AlertDialog.Builder(this).setMessage("此次更新了邮件发送失败后重发，计时开始后屏幕亮度自动调节").show()
+            AlertDialog.Builder(this).setMessage("可以自定义发送邮件使用的邮箱地址，不过您的邮箱必须开启POP3/SMTP服务").show()
         }
 
     }
@@ -268,6 +268,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         mToggleButton.setOnCheckedChangeListener { _, isChecked ->
+            //关闭 键盘
+            SendMailboxManager.hideInput(this)
             if (isChecked) {
                 startTime()
             } else {
@@ -367,8 +369,14 @@ class MainActivity : AppCompatActivity() {
 
                 if (millisecondValue <= currentTimeMillis) {
                     val trim = edittextMailbox.text.toString().trim()
-                    val send = edittextSend.text.toString().trim()
-                    val sendPass = edittextSendPass.text.toString().trim()
+                    var send: String? = edittextSend.text.toString().trim()
+                    if (TextUtils.isEmpty(send)) {
+                        send = null
+                    }
+                    var sendPass: String? = edittextSendPass.text.toString().trim()
+                    if (TextUtils.isEmpty(sendPass)) {
+                        sendPass = null
+                    }
                     val startActivityForPackName =
                         startActivityForPackName("com.alibaba.android.rimet")
                     Log.d("12345", "打开: $startActivityForPackName");
